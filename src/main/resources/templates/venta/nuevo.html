@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/head :: head"></head>
+
+<body id="page-top">
+<div id="wrapper">
+    <div th:replace="fragments/header :: header"></div>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <div th:replace="fragments/nav :: nav"></div>
+
+            <div class="container-fluid">
+                <div class="container">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Nueva Venta</h1>
+                    </div>
+
+                    <div class="card mt-4">
+                        <div class="card-body">
+
+                            <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+
+                            <form th:action="@{/ventas/guardar}" method="post" th:object="${venta}" id="formComprobante">
+                                <input type="hidden" name="accion" value="insertar"/>
+
+                                <div class="form-group row mb-3">
+                                    <label class="col-sm-2 col-3 col-form-label">Fecha Venta:</label>
+                                    <div class="col-sm-8 col-9">
+                                        <input type="date" class="form-control" th:field="*{fechaVenta}" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mb-3">
+                                    <label class="col-sm-2 col-3 col-form-label">Seleccione Cliente:</label>
+                                    <div class="col-sm-8 col-9">
+                                        <select name="idCliente" id="idCliente" class="form-control">
+                                            <option th:each="c : ${clientes}" th:value="${c.idCliente}" th:text="${c.nombre}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mb-3">
+                                    <label class="col-sm-2 col-3 col-form-label">Observaciones:</label>
+                                    <div class="col-sm-8 col-9">
+                                        <textarea rows="10" cols="50" class="form-control" th:field="*{observacion}"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mb-3">
+                                    <label class="col-sm-2 col-3 col-form-label">Seleccione Producto:</label>
+                                    <div class="col-sm-8 col-9">
+                                        <select name="idProducto" id="idProducto" class="form-control">
+                                            <option th:each="p : ${productos}" th:value="${p.idProducto}" th:text="${p.nombre}"></option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mb-3">
+                                    <label class="col-sm-2 col-3 col-form-label">Precio:</label>
+                                    <div class="col-sm-8 col-9">
+                                        <input type="number" id="precio" class="form-control" readonly/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mb-3">
+                                    <label class="col-sm-2 col-3 col-form-label">Stock Actual:</label>
+                                    <div class="col-sm-8 col-9">
+                                        <input type="number" id="stock" class="form-control" readonly/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mb-3">
+                                    <label class="col-sm-2 col-3 col-form-label">Cantidad a vender:</label>
+                                    <div class="col-sm-3 col-9">
+                                        <input type="number" class="form-control" name="cantidad" id="cantidad"/>
+                                    </div>
+                                </div>
+
+                                <button type="button" class="btn btn-primary" id="agregar">Agregar Producto</button>
+                                <input type="hidden" name="detallesJson" id="detalles"/>
+
+                                <div class="col-md-12 col-sm-12 mb-4 mt-4">
+                                    <table class="table">
+                                        <thead class="table-dark">
+                                        <tr>
+                                            <th>Código Producto</th>
+                                            <th>Nombre del producto</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio</th>
+                                            <th>Total</th>
+                                            <th>Acción</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="tbody"></tbody>
+                                        <tfoot></tfoot>
+                                    </table>
+                                </div>
+
+                                <button type="submit" class="btn btn-success">Realizar Venta</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:replace="fragments/footer :: footer"></div>
+    </div>
+</div>
+
+<div th:replace="fragments/modalCerrarSesion :: modalCerrarSesion"></div>
+<div th:replace="fragments/scripts :: scripts"></div>
+
+<script>
+    let nomProdSeleccionado = "";
+
+    function obtenerProducto(id) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '/productos/buscar/' + id, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                document.getElementById('precio').value = response.precioVenta;
+                document.getElementById('stock').value = response.stock;
+                nomProdSeleccionado = response.nombre;
+            }
+        };
+        xhr.send();
+    }
+
+    document.getElementById('idProducto').addEventListener('change', function () {
+        obtenerProducto(this.value);
+    });
+
+    obtenerProducto(document.getElementById('idProducto').value);
+
+    document.getElementById("agregar").addEventListener("click", function () {
+        let cod = document.getElementById('idProducto').value;
+        let nombreProducto = nomProdSeleccionado;
+        let cantidad = document.getElementById("cantidad").value;
+        let precio = document.getElementById("precio").value;
+        let stock = document.getElementById("stock").value;
+
+        if (parseFloat(cantidad) > parseFloat(stock)) {
+            alert("No hay suficiente stock");
+            return;
+        }
+
+        let filas = document.querySelectorAll("#tbody tr");
+        let filaExistente = null;
+
+        for (let i = 0; i < filas.length; i++) {
+            let celdas = filas[i].getElementsByTagName("td");
+            if (celdas[0].textContent === cod) {
+                filaExistente = filas[i];
+                break;
+            }
+        }
+
+        if (filaExistente) {
+            filaExistente.getElementsByTagName("td")[2].textContent = cantidad;
+            filaExistente.getElementsByTagName("td")[3].textContent = precio;
+            filaExistente.getElementsByTagName("td")[4].textContent = precio * cantidad;
+        } else {
+            var fila = '<tr>' +
+                '<td>' + cod + '</td>' +
+                '<td>' + nombreProducto + '</td>' +
+                '<td>' + cantidad + '</td>' +
+                '<td>' + precio + '</td>' +
+                '<td>' + (precio * cantidad) + '</td>' +
+                '<td><button class="btn btn-danger btn-sm eliminarFila">Borrar</button></td>' +
+                '</tr>';
+
+            document.getElementById("tbody").innerHTML += fila;
+        }
+        actualizarDetalles();
+    });
+
+    document.getElementById("tbody").addEventListener("click", function (e) {
+        if (e.target && e.target.classList.contains("eliminarFila")) {
+            var fila = e.target.closest("tr");
+            fila.parentNode.removeChild(fila);
+            actualizarDetalles();
+        }
+    });
+
+    function actualizarDetalles() {
+        let filas = document.querySelectorAll("#tbody tr");
+        let detalles = [];
+
+        for (let i = 0; i < filas.length; i++) {
+            let celdas = filas[i].getElementsByTagName("td");
+            let detalle = {
+                idProducto: celdas[0].textContent,
+                cantidad: celdas[2].textContent,
+                precio: celdas[3].textContent,
+                total: celdas[4].textContent
+            };
+            detalles.push(detalle);
+        }
+
+        document.getElementById("detalles").value = JSON.stringify(detalles);
+    }
+
+    document.getElementById("formComprobante").addEventListener("submit", function () {
+        actualizarDetalles();
+    });
+</script>
+
+</body>
+</html>

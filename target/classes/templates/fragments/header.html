@@ -1,0 +1,80 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+
+<ul th:fragment="header" class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/}">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fa-solid fa-shop fa-xl"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Tienda <sup>ropa</sup></div>
+    </a>
+
+    <hr class="sidebar-divider my-0" />
+
+    <li class="nav-item active">
+        <a class="nav-link" th:href="@{/home/dashboard}">
+            <img th:src="@{/imagen/dash.png}" />
+            <span>Dashboard</span>
+        </a>
+    </li>
+
+    <li class="nav-item active" sec:authorize="hasAuthority('ROLE_ADMIN')">
+        <a class="nav-link" th:href="@{/usuarios}">
+            <img th:src="@{/imagen/obrero.png}" />
+            <span>Usuarios</span>
+        </a>
+    </li>
+
+    <li class="nav-item active" sec:authorize="hasAnyAuthority('ROLE_ADMIN','ROLE_ALMACENERO')">
+        <a class="nav-link" th:href="@{/categorias}">
+            <img th:src="@{/imagen/categorias.png}" />
+            <span>Categorías</span>
+        </a>
+    </li>
+
+    <li class="nav-item active" sec:authorize="hasAnyAuthority('ROLE_ADMIN','ROLE_ALMACENERO')">
+        <a class="nav-link" th:href="@{/productos}">
+            <img th:src="@{/imagen/tendedero.png}" />
+            <span>Productos</span>
+        </a>
+    </li>
+
+    <li class="nav-item active">
+        <a class="nav-link" th:href="@{/proveedores}" sec:authorize="hasAnyAuthority('ROLE_ADMIN','ROLE_ALMACENERO')">
+            <img th:src="@{/imagen/proveedor.png}" />
+            <span>Proveedores</span>
+        </a>
+    </li>
+
+    <li class="nav-item active" sec:authorize="hasAnyAuthority('ROLE_ADMIN','ROLE_VENDEDOR')">
+        <a class="nav-link" th:href="@{/clientes}">
+            <img th:src="@{/imagen/customer.png}" />
+            <span>Clientes</span>
+        </a>
+    </li>
+
+    <li class="nav-item active" sec:authorize="hasAnyAuthority('ROLE_ADMIN','ROLE_VENDEDOR')">
+        <a class="nav-link" th:href="@{/ventas}">
+            <img th:src="@{/imagen/venta.png}" />
+            <span>Ventas</span>
+        </a>
+    </li>
+
+    <li class="nav-item active" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+        <a class="nav-link" th:href="@{/bitacoras}">
+            <img th:src="@{/imagen/internet.png}" />
+            <span>Bitacoras</span>
+        </a>
+    </li>
+
+    <li class="nav-item active">
+        <a class="nav-link" th:href="@{/auth/logout}">
+            <img th:src="@{/imagen/poder.png}" />
+            <span>Cerrar sesión</span>
+        </a>
+    </li>
+
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+</ul>

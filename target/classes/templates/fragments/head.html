@@ -1,0 +1,30 @@
+<head th:fragment="head">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <title th:text="${titulo} ?: 'SB Admin 2 - Dashboard'">SB Admin 2 - Dashboard</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <!-- Google Fonts: Nunito -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900" rel="stylesheet" />
+
+    <!-- Estilo principal -->
+    <link rel="stylesheet" th:href="@{/css/sb-admin-2.min.css}" />
+
+    <!-- jQuery -->
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js}" 
+            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" 
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- DataTables -->
+    <link rel="stylesheet" th:href="@{https://cdn.datatables.net/v/bs5/dt-1.13.8/datatables.min.css}" />
+    <link rel="stylesheet" th:href="@{https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css}" />
+
+    <script th:src="@{https://cdn.datatables.net/v/bs5/dt-1.13.8/datatables.min.js}"></script>
+    <script th:src="@{https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js}"></script>
+</head>

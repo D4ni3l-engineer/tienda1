@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/head :: head"></head>
+
+<body id="page-top">
+<div id="wrapper">
+    <div th:replace="fragments/header :: header"></div>
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+
+            <div th:replace="fragments/nav :: nav"></div>
+
+            <div class="container-fluid">
+                <div class="container">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Nueva Categoría</h1>
+                    </div>
+
+                    <div class="card mt-4">
+                        <div class="card-body">
+
+                            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+                            <form th:action="@{/categorias/guardar}" method="post" th:object="${categoria}">
+                                <div class="form-group row mb-3">
+                                    <label for="nombre" class="col-sm-3 col-3 col-form-label">Nombre Categoría: </label>
+                                    <div class="col-sm-8 col-9">
+                                        <input type="text" class="form-control" th:field="*{nombre}" placeholder="Ingrese nombre de categoría">
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-success">Registrar</button>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div th:replace="fragments/footer :: footer"></div>
+    </div>
+</div>
+
+<div th:replace="fragments/modalCerrarSesion :: modalCerrarSesion"></div>
+<div th:replace="fragments/scripts :: scripts"></div>
+
+<script th:inline="javascript">
+    $("#example").DataTable({
+        responsive: true,
+    });
+</script>
+</body>
+</html>

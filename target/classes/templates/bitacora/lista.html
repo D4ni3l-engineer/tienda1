@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head}"></head>
+
+<body id="page-top">
+<div id="wrapper">
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <div th:replace="~{fragments/nav :: nav}"></div>
+
+            <div class="container-fluid">
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Lista de Bitácoras</h1>
+                </div>
+
+                <div class="card mt-4">
+                    <div class="card-body">
+
+                        <div>
+                            <table id="example" class="table table-bordered table-hover nowrap" style="width: 100%">
+                                <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Usuario</th>
+                                    <th>Acción</th>
+                                    <th>Módulo</th>
+                                    <th>Fecha</th>
+                                    <th>IP</th>
+                                    <th>Resultado</th>
+                                    <th>Descripción</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="bitacora : ${bitacoras}">
+                                    <td th:text="${bitacora.id}">1</td>
+                                    <td th:text="${bitacora.usuario}">Usuario</td>
+                                    <td th:text="${bitacora.accion}">Acción</td>
+                                    <td th:text="${bitacora.modulo}">Módulo</td>
+                                    <td th:text="${#temporals.format(bitacora.fecha, 'dd/MM/yyyy HH:mm')}">Fecha</td>
+                                    <td th:text="${bitacora.ip}">IP</td>
+                                    <td th:text="${bitacora.resultado}">Resultado</td>
+                                    <td th:text="${bitacora.descripcion}">Descripción</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div th:replace="~{fragments/footer :: footer}"></div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/modalCerrarSesion :: modalCerrarSesion}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+<script th:inline="javascript">
+    $(document).ready(function () {
+        $('#example').DataTable({
+            responsive: true
+        });
+    });
+</script>
+
+</body>
+</html>

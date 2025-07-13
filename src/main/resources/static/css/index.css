@@ -1,0 +1,102 @@
+@keyframes saber-mas {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.fa-circle-question {
+    animation: saber-mas 0.5s ease infinite alternate;
+}
+
+@keyframes bounce {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+.btn .fa-nutritionix {
+    transition: transform 0.5s ease;
+}
+
+.btn:hover .fa-nutritionix {
+    animation: bounce 1s infinite;
+}
+
+.animate-img {
+    opacity: 0;
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+    transform: translateX(-100%);
+}
+
+.animate-img.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.animate-img2 {
+    opacity: 0;
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+    transform: translateX(100%);
+}
+
+.animate-img2.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+@keyframes typing {
+    0% {
+        width: 0;
+    }
+
+    50% {
+        width: 100%;
+    }
+
+    100% {
+        width: 100%;
+    }
+}
+
+.typing-animation {
+    overflow: hidden;
+    border-right: .15em solid orange;
+    white-space: nowrap;
+    margin: 0 auto;
+    font-size: 1.5em;
+    animation: typing 6s steps(20, end) infinite;
+}
+
+.contenedor-principal {
+    position: relative;
+    overflow: hidden;
+}
+
+.expand-img {
+    transition: transform 0.3s ease;
+}
+
+.expand-img:hover {
+    transform: scale(1.1);
+}
+
+.contenedor-descripcion h2 {
+    font-size: 18px;
+}

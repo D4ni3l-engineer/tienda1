@@ -1,0 +1,101 @@
+.btn-height {
+    height: 60px;
+}
+
+.header {
+    background-color: #f7f8fb;
+}
+
+.input-height {
+    height: 50px;
+}
+
+.primario {
+    color: #160f27;
+    font-weight: bold;
+}
+
+.secundario {
+    color: #FFD700;
+    font-weight: bold;
+}
+
+.underline {
+    text-decoration: underline;
+    text-decoration-color: #160f27;
+}
+
+
+.footer {
+    background-color: #160f27;
+}
+
+.enlaces {
+    color: #888888;
+}
+
+
+.footer h6,
+.derechos-reservados {
+    font-size: 13px;
+    color: #888888;
+}
+
+
+.footer-link {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-link:hover {
+    color: #FFD700;
+}
+
+.footer-link-inverso {
+    color: #FFD700;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-link-inverso:hover {
+    color: #ffffff;
+}
+
+.anlace-moto {
+    color: #888888;
+}
+
+.anlace-moto:hover {
+    color: #ffffff;
+}
+
+.footer p,
+.footer a {
+    font-size: 13px;
+}
+
+.footer .anlace-moto {
+    font-size: 14px;
+}
+
+.footer img {
+    max-width: 200px;
+    max-height: 100px;
+}
+
+.btn-cancelar {
+    padding-top: 15px;
+}
+
+td .imagen-mascota {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+li .imagen-mascota {
+    width: 500px;
+    height: 500px;
+    object-fit: cover;
+}

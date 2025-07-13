@@ -1,0 +1,9 @@
+<footer th:fragment="footer" class="sticky-footer bg-white">
+    <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+            <span>
+                &copy; <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2024</span> - Tu Aplicación
+            </span>
+        </div>
+    </div>
+</footer>

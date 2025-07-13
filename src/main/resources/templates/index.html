@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda de Moda</title>
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/estilo.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <script src="/js/iconos.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/chat.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/typing.css">
+    
+    <style>
+        .btn.boton-comprar {
+            height: 45px;
+            background-color: #333;
+            color: white;
+            width: 100%;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .btn.boton-comprar:hover {
+            background-color: black;
+        }
+
+        .btn.boton-comprar i {
+            color: #e60039;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="inicio">
+        <nav class="navbar navbar-expand-lg bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#"><img src="/imagen/logo.png" alt="" width="100px"></a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#producto">Productos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#nosotros">Sobre Nosotros</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#ubicanos">Ubícanos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contacto">Contacto</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="!isAuthenticated()">
+                            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#signInModal">Inicio Sesión</a>
+                        </li>
+                        <li class="nav-item" sec:authorize="isAuthenticated()">
+                            <a class="nav-link" href="/logout">Cerrar Sesión</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="barra1">
+            <div class="barra1-izquierda">
+                <ul>
+                    <li><i class="fa-solid fa-phone fa-sm" style="color: #ffffff;"></i> 943 546 657</li>
+                    <li><i class="fa-solid fa-envelope fa-sm" style="color: #ffffff;"></i> admin@gmail.com</li>
+                    <li><i class="fa-solid fa-clock fa-sm" style="color: #ffffff;"></i> Lunes - Sabado 8:00 - 19:00</li>
+                </ul>
+            </div>
+            <div class="barra1-derecha">
+                <ul class="redesSociales">
+                    <li><a href=""><i class="fa-brands fa-facebook fa-xl" style="color: #ffffff;"></i></a></li>
+                    <li><a href=""><i class="fa-brands fa-twitter fa-xl" style="color: #ffffff;"></i></a></li>
+                    <li><a href=""><i class="fa-brands fa-instagram fa-xl" style="color: #ffffff;"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="video video-container">
+            <video controls autoplay muted loop playsinline>
+                <source src="/imagen/video.mp4" type="video/mp4">
+            </video>
+
+            <div class="video-informacion">
+                <div class="video-informacion-cont">
+                   <h2>TODO PARA TU <span>ESTILO PERSONAL</span></h2>
+                    <h3 class="typing-animation">Descubre la mejor selección en moda y accesorios</h3>
+                    <p>
+                        Bienvenido a nuestra tienda dedicada a proporcionarte todo lo necesario para tu estilo personal. Explora nuestra amplia gama de ropa y accesorios de moda para definir tu estilo y destacar en cualquier ocasión.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal para mensajes del sistema -->
+        <div class="modal fade" id="mensajeModal" tabindex="-1" aria-labelledby="mensajeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content shadow-lg border-0">
+                    <div class="modal-header px-4 py-3" id="mensajeModalHeader">
+                        <h5 class="modal-title fw-bold d-flex align-items-center" id="mensajeModalLabel">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i> Mensaje del sistema
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body text-center px-4 py-4" id="mensajeModalBody" style="font-size: 1.1rem;">
+                    </div>
+                    <div class="modal-footer px-4 py-3">
+                        <button type="button" class="btn btn-outline-primary w-100" data-bs-dismiss="modal">Aceptar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Login -->
+        <div class="modal fade" id="signInModal" tabindex="-1" aria-labelledby="signInModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="signInModalLabel">Login</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <form id="loginForm" method="POST" action="/auth/login">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="email" class="form-label">CORREO: *</label>
+                                <input type="text" class="form-control" id="email" name="correo" placeholder="Ingrese correo" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">CONTRASEÑA: *</label>
+                                <input type="password" class="form-control" id="password" name="contrasenia" placeholder="Ingrese contraseña" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <main class="mt-4" id="producto">
+        <section class="container-fluid mb-4 contenedor">
+            <article class="custom-container py-2">
+                <div class="lista-mascota text-center text-light py-4 mb-4">
+                    <h1 class="display-4 font-weight-bold">PRODUCTOS</h1>
+                </div>
+
+                <div class="row imagenes">
+                    <div class="col-lg-3 col-md-3 col-sm-6 p-2 col-12" th:each="producto : ${productos}">
+                        <div class="contenedor-principal">
+                            <div class="contendor-imagen">
+                                <img th:src="@{'/uploads/producto/' + ${producto.imagen}}" 
+                                    th:alt="${producto.nombre}" 
+                                    class="img-fluid rounded w-100 h-100 expand-img"/>
+                            </div>
+                            <div class="contenedor-descripcion p-3">
+                                <h2 th:text="${producto.nombre}"></h2>
+                                <p th:if="${producto.precioVenta}" class="precio" th:text="'S/. ' + ${producto.precioVenta}"></p>
+                                <a href="#" class="btn boton-comprar" th:data-id="${producto.idProducto}">
+                                    <i class="fa-solid fa-shopping-cart fa-xl"></i> Agregar Carrito
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </section>
+                
+        <section class="container-fluid contenedor" id="nosotros">
+            <div class="mb-4">
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <h3 class="text-center fw-bold mb-4">SOBRE NOSOTROS</h3>
+                        <p class="fs-5 mb-4">
+                            En nuestra misión por ser tu proveedor de confianza en moda y accesorios, nos dedicamos a ofrecer recursos y productos de calidad para que puedas crear un estilo personal y único.
+                        </p>
+                        <p class="fs-5 mb-4">
+                            Nos especializamos en proporcionar información útil sobre las últimas tendencias en moda y accesorios, ayudándote a tomar decisiones informadas para satisfacer tus necesidades de vestir.
+                        </p>
+                        <p class="fs-5 mb-4">
+                            Además de nuestra amplia selección de productos, también nos comprometemos a brindar soporte y asesoramiento personalizado para que aproveches al máximo tu experiencia de compra.
+                        </p>
+                        <p class="fs-5 mb-4">
+                            Únete a nuestra comunidad de entusiastas de la moda y los accesorios. Participa en eventos, descubre las últimas novedades y únete a nosotros en la creación de un estilo personal y destacado.
+                        </p>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12 d-flex align-items-center justify-content-center">
+                        <img src="/imagen/imagen.png" class="img-fluid animate-img2" alt="Alimentación consciente" style="max-height:600px">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container-fluid contenedor">
+            <div class="mb-4">
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <h3 class="text-center fw-bold mb-4">MISIÓN</h3>
+                        <p class="fs-5 mb-4">
+                            Nuestra misión es proporcionar a nuestros clientes la mejor experiencia en moda y estilo, ofreciendo productos de calidad y servicios excepcionales para satisfacer sus necesidades en el ámbito del vestir y la moda.
+                        </p>
+                        <p class="fs-5 mb-4">
+                            Nos comprometemos a brindar soluciones innovadoras que faciliten la expresión personal, el estilo y la comodidad en cualquier ocasión.
+                        </p>
+                        <p class="fs-5 mb-4">
+                            Además de nuestro enfoque en moda y accesorios, también nos dedicamos a inspirar la creatividad y la autoexpresión, ofreciendo productos que reflejen las últimas tendencias y promuevan el bienestar personal.
+                        </p>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12 d-flex align-items-center justify-content-center">
+                        <img src="/imagen/imagen2.png" class="img-fluid animate-img2" alt="Misión" style="max-height:600px">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 col-sm-12 d-flex align-items-center justify-content-center">
+                        <img src="/imagen/imagen3.png" class="img-fluid animate-img" alt="Visión" style="max-height:600px">
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <h3 class="text-center fw-bold mb-4">VISIÓN</h3>
+                        <p class="fs-5 mb-4">
+                            Nuestra visión es ser la principal opción para aquellos que buscan estilo y calidad en ropa y accesorios de moda, ofreciendo las últimas tendencias y diseños que inspiren y mejoren la experiencia de vestir.
+                        </p>
+                        <p class="fs-5 mb-4">
+                            Nos esforzamos por ser líderes en la moda, anticipándonos a las tendencias del mercado y proporcionando a nuestros clientes prendas y accesorios que reflejen su estilo personal y los hagan destacar en cualquier ocasión.
+                        </p>
+                        <p class="fs-5 mb-4">
+                            Trabajamos hacia un futuro donde la moda no solo sea una forma de vestir, sino también una expresión de individualidad y creatividad que mejore la autoestima y el bienestar de las personas.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+                
+        <section class="container-fluid contenedor mt-4" id="ubicanos">
+            <div class="row">
+                <div class="lista-mascota text-center text-light py-4 mb-4">
+                    <h1 class="display-4 font-weight-bold">Encuéntranos</h1>
+                    <p class="lead">Descubre nuestra ubicación y explora nuestra variedad de ropa y accesorios de moda.</p>
+                </div>
+
+                <div class="col-md-6">
+                    <p class="texto-bienvenida">
+                        ¡Bienvenido a nuestra tienda de ropa y accesorios! Aquí te invitamos a explorar cómo puedes mejorar tu estilo y guardarropa con nuestras últimas colecciones y tendencias en moda. Descubre cómo cada pieza puede complementar tu estilo personal y destacar tu personalidad única.
+                    </p>
+                </div>
+
+                <div class="col-md-6 text-center">
+                    <div id="map-container">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.6155705935!2d-77.0155818231379!3d-12.069950042336547!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c89c52ae1531%3A0x54dcfaa91f17dc2f!2sGaler%C3%ADa%20San%20Pedro!5e0!3m2!1ses-419!2spe!4v1720497381868!5m2!1ses-419!2spe" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+                
+        <section class="container-fluid contenedor mt-4" id="contacto">
+            <div class="row">
+                <div class="lista-mascota text-center text-light py-4 mb-4">
+                    <h1 class="display-4 font-weight-bold">CONTACTANOS</h1>
+                    <p class="lead">Contáctanos para obtener asesoramiento personalizado sobre moda y estilo que se adapte a tus necesidades y te ayude a crear looks funcionales y con estilo.</p>
+                </div>
+
+                <div class="card-body">
+                    <div class="container">
+                        <br><br>
+                        <form th:action="@{/contacto}" method="post" class="row g-3">
+                            <div class="col-md-6">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <input type="text" name="nombre" id="nombre" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="apellidoP" class="form-label">Apellido Paterno</label>
+                                <input type="text" name="apellidoP" id="apellidoP" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="apellidoM" class="form-label">Apellido Materno</label>
+                                <input type="text" name="apellidoM" id="apellidoM" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="fechaNac" class="form-label">Fecha Nacimiento</label>
+                                <input type="date" name="fechaNac" id="fechaNac" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-8">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" name="email" id="email" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="telefono" class="form-label">Teléfono</label>
+                                <input type="tel" name="telefono" id="telefono" class="form-control">
+                            </div>
+
+                            <div class="col-md-12">
+                                <label for="comentario" class="form-label">Comentario</label>
+                                <textarea name="comentario" id="comentario" rows="4" class="form-control"></textarea>
+                            </div>
+
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-primary">Enviar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+                
+        <div class="contenido_chat">
+            <div class="chatbox">
+                <div class="chatbox__support">
+                    <div class="chatbox__header">
+                        <div class="chatbox__image--header">
+                            <img src="/imagen/images.png" alt="image">
+                        </div>
+                        <div class="chatbox__content--header">
+                            <h4 class="chatbox__heading--header">Chat Soporte</h4>
+                            <p class="chatbox__description--header">Por favor, describe tu problema o pregunta y nuestro equipo de soporte te asistirá en breve.</p>
+                        </div>
+                    </div>
+                    <div class="chatbox__messages">
+                        <div class="message_container">
+                            <div class="messages__item messages__item--visitor">
+                                ¡Hola! Soy tu asistente virtual, aquí para ayudarte con cualquier consulta o tarea que tengas.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chatbox__footer">
+                        <img src="/imagen/icons/emojis.svg" alt="">
+                        <img src="/imagen/icons/microphone.svg" alt="">
+                        <input type="text" class="input" placeholder="Escribe mensaje...">
+                        <p class="chatbox__send--footer">Enviar</p>
+                        <img src="/imagen/icons/attachment.svg" alt="">
+                    </div>
+                </div>
+                <div class="chatbox__button">
+                    <button>button</button>
+                </div>
+            </div>
+        </div>
+    </main>
+                
+    <footer class="pie-pagina mt-auto py-3">
+        <div class="d-flex justify-content-center mb-5 my-5">
+            <div class="col-auto">
+                <img src="/imagen/logo.png" alt="Logo de tu tienda" width="200px"
+                    class="img-fluid img-thumbnail">
+            </div>
+        </div>
+
+        <div class="container mt-2">
+            <div class="row">
+                <div class="col-md-3 col-sm-12 mb-5">
+                    <h6>NOSOTROS</h6>
+                    <p class="text-white">Somos tu tienda dedicada a ofrecerte la mejor selección de ropa y accesorios de moda. Encuentra todo lo que necesitas para lucir a la moda y con estilo.</p>
+                    <a href="#" class="footer-link-inverso">Más sobre nosotros</a>
+                    <p class="h6 derechos-reservados"> © 2024. Todos los derechos reservados.</p>
+                </div>
+
+                <div class="col-md-2 col-sm-12 mb-5">
+                    <h6>SOPORTE</h6>
+                    <div class="row">
+                        <div class="col-12">
+                            <a href="#" class="footer-link">Políticas de Privacidad</a>
+                        </div>
+                        <div class="col-12">
+                            <a href="#" class="footer-link">Términos y Condiciones</a>
+                        </div>
+                        <div class="col-12">
+                            <a href="#" class="footer-link">Contacto</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2 col-sm-12 mb-5">
+                    <h6>REDES SOCIALES</h6>
+                    <div class="iconos">
+                        <a href="#"><i class="fa-brands fa-facebook-f" style="color: #fcfcfc;"></i></a>
+                        <a href="#"><i class="fa-brands fa-youtube" style="color: #ffffff;"></i></a>
+                        <a href="#"><i class="fa-brands fa-twitter" style="color: #ffffff;"></i></a>
+                    </div>
+                    <h6>ENCUÉNTRANOS</h6>
+                    <p class="text-white">Visítanos en nuestra tienda física: Dirección de tu tienda, Ciudad, Estado.</p>
+                </div>
+
+                <div class="col-md-3 col-sm-12 mb-5">
+                    <h6>EVENTOS</h6>
+                    <p class="text-white">Descubre nuestros próximos eventos de moda y lanzamientos exclusivos.</p>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="footer-link">Desfile de moda - 10 de marzo</a></li>
+                        <li><a href="#" class="footer-link">Lanzamiento de nueva colección - 15 de marzo</a></li>
+                        <li><a href="#" class="footer-link">Ofertas exclusivas - 20 de marzo</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-2 col-sm-12 mb-5">
+                    <h6>REGÍSTRATE</h6>
+                    <a href="#" class="footer-link-inverso">Recibe nuestras novedades y ofertas</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/index.js"></script>
+    <script src="/js/Chat.js"></script>
+    <script src="/js/app.js"></script>
+    
+    <script type="importmap">
+        {
+            "imports": {
+                "@google/generative-ai": "https://esm.run/@google/generative-ai"
+            }
+        }
+    </script>
+    
+    <script th:inline="javascript">
+        window.addEventListener('DOMContentLoaded', (event) => {
+            /*[# th:if="${param.error}"]*/
+            document.getElementById('mensajeModalBody').innerText = 'Usuario o contraseña incorrectos.';
+            new bootstrap.Modal(document.getElementById('mensajeModal')).show();
+            /*[/]*/
+            
+            /*[# th:if="${param.bloqueado}"]*/
+            document.getElementById('mensajeModalBody').innerText = 'Tu cuenta ha sido bloqueada temporalmente por múltiples intentos fallidos. Intenta nuevamente en 5 minutos.';
+            new bootstrap.Modal(document.getElementById('mensajeModal')).show();
+            /*[/]*/
+            
+            /*[# th:if="${param.logout}"]*/
+            document.getElementById('mensajeModalBody').innerText = 'Has cerrado sesión exitosamente.';
+            new bootstrap.Modal(document.getElementById('mensajeModal')).show();
+            /*[/]*/
+        });
+    </script>
+
+
+    <script src="/js/script.js"></script>
+</body>
+</html>

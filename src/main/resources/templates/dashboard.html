@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head}"></head>
+<body id="page-top">
+    <div id="wrapper">
+        <header th:replace="~{fragments/header :: header}"></header>
+
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <div th:replace="~{fragments/nav :: nav}"></div>
+ 
+            </div>
+
+            <footer th:replace="~{fragments/footer :: footer}"></footer>
+
+        </div>
+
+    </div>
+   
+    <div th:replace="~{fragments/scripts :: scripts}"></div>
+</body>
+</html>

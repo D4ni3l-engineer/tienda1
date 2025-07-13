@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head"></head>
+
+<body id="page-top">
+<div id="wrapper">
+    <div th:replace="fragments/header :: header"></div>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <div th:replace="fragments/nav :: nav"></div>
+
+            <div class="container-fluid">
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 id="titulo" class="h3 mb-0 text-gray-800">Detalle de Venta</h1>
+                </div>
+
+                <div class="card mt-4">
+                    <div class="card-body">
+
+                        <div>
+                            <table id="example" class="table table-bordered table-hover nowrap" style="width: 100%">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio venta</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="detalle : ${detalles}">
+                                        <td th:text="${detalle.nombreProducto}">Nombre producto</td>
+                                        <td th:text="${detalle.cantidad}">2</td>
+                                        <td th:text="${detalle.precio}">15.00</td>
+                                        <td th:text="${detalle.total}">30.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <a class="btn btn-outline-info" th:href="@{/ventas}"> Regresar a lista de ventas</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:replace="fragments/footer :: footer"></div>
+    </div>
+</div>
+
+<div th:replace="fragments/modalCerrarSesion :: modalCerrarSesion"></div>
+<div th:replace="fragments/scripts :: scripts"></div>
+
+<script>
+    $(document).ready(function () {
+        $("#example").DataTable({
+            responsive: true,
+        });
+    });
+</script>
+
+</body>
+</html>

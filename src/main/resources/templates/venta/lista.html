@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head"></head>
+
+<body id="page-top">
+
+<div id="wrapper">
+    <div th:replace="fragments/header :: header"></div>
+    
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <div th:replace="fragments/nav :: nav"></div>
+
+            <div class="container-fluid">
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 id="titulo" class="h3 mb-0 text-gray-800">Lista de Ventas</h1>
+                </div>
+
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <a th:href="@{/ventas/nuevo}" class="btn btn-outline-primary mb-4" role="button">Nueva venta</a>
+                        <div>
+                            <table id="example" class="table table-bordered table-hover nowrap" style="width: 100%">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>ID Venta</th>
+                                        <th>Cliente</th>
+                                        <th>Fecha Venta</th>
+                                        <th>Observaciones</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="venta : ${ventas}">
+                                        <td th:text="${venta.idVenta}">1</td>
+                                        <td th:text="${venta.clienteNombre}">Nombre Cliente</td>
+                                        <td th:text="${venta.fechaVenta}">2023-07-01</td>
+                                        <td th:text="${venta.observacion}">Observación</td>
+                                        <td>
+                                            <a th:href="@{/ventas/detalle/{id}(id=${venta.idVenta})}" class="btn btn-outline-warning">Ver detalle</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+   
+        <div th:replace="fragments/footer :: footer"></div>
+    </div>
+</div>
+
+<!-- Scripts y cierre de sesión -->
+<div th:replace="fragments/modalCerrarSesion :: modalCerrarSesion"></div>
+<div th:replace="fragments/scripts :: scripts"></div>
+
+<script>
+    $(document).ready(function () {
+        $("#example").DataTable({
+            responsive: true,
+        });
+    });
+
+</script>
+</body>
+</html>

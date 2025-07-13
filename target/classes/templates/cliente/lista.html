@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head}"></head>
+
+<body id="page-top">
+<div id="wrapper">
+    <header th:replace="~{fragments/header :: header}"></header>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <div th:replace="~{fragments/nav :: nav}"></div>
+
+            <div class="container-fluid">
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Lista de Clientes</h1>
+                </div>
+
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <a th:href="@{/clientes/nuevo}" class="btn btn-outline-primary mb-4" role="button">Nuevo Cliente</a>
+
+                        <div>
+                            <table id="example" class="table table-bordered table-hover nowrap" style="width: 100%">
+                                <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido Paterno</th>
+                                    <th>Apellido Materno</th>
+                                    <th>Dirección</th>
+                                    <th>Teléfono</th>
+                                    <th>Acciones</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="cliente : ${clientes}">
+                                    <td th:text="${cliente.idCliente}">1</td>
+                                    <td th:text="${cliente.nombre}">Nombre</td>
+                                    <td th:text="${cliente.apellidoP}">Apellido P</td>
+                                    <td th:text="${cliente.apellidoM}">Apellido M</td>
+                                    <td th:text="${cliente.direccion}">Dirección</td>
+                                    <td th:text="${cliente.telefono}">Teléfono</td>
+                                    <td>
+                                        <div class="d-grid gap-2 d-md-block">
+                                            <a th:href="@{/clientes/editar/{id}(id=${cliente.idCliente})}" class="btn btn-outline-warning">Modificar</a>
+                                            <a th:href="@{/clientes/eliminar/{id}(id=${cliente.idCliente})}" class="btn btn-outline-danger">Eliminar</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div th:replace="~{fragments/footer :: footer}"></div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/modalCerrarSesion :: modalCerrarSesion}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+<script th:inline="javascript">
+    $(document).ready(function () {
+        $('#example').DataTable({
+            responsive: true
+        });
+    });
+</script>
+
+</body>
+</html>

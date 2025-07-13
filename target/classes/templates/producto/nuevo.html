@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/head :: head}"></head>
+<body id="page-top">
+
+<div id="wrapper">
+    <header th:replace="~{fragments/header :: header}"></header>
+
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div id="content">
+            <div th:replace="~{fragments/nav :: nav}"></div>
+
+            <div class="container-fluid">
+                <div class="container">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Nuevo Producto</h1>
+                    </div>
+
+                    <div class="card mt-4">
+                        <div class="card-body">
+
+                            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+                            <form th:action="@{/productos/guardar}" method="post" th:object="${producto}" enctype="multipart/form-data">
+
+                                <div class="form-group row mb-3">
+                                    <label for="nombre" class="col-sm-3 col-4 col-form-label">Nombre: </label>
+                                    <div class="col-sm-8 col-9">
+                                        <input type="text" class="form-control" th:field="*{nombre}" placeholder="Ingrese nombre del producto">
+                                        <small th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="text-danger"></small>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mb-3">
+                                    <label for="idCategoria" class="col-sm-3 col-form-label">Categoría:</label>
+                                    <div class="col-sm-8 col-9">
+                                        <select class="form-control" th:field="*{idCategoria}">
+                                            <option value="" disabled selected>Seleccione una categoría</option>
+                                            <option th:each="categoria : ${categorias}"
+                                                    th:value="${categoria.idCategoria}"
+                                                    th:text="${categoria.nombre}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-3">
+                                    <label for="idProveedor" class="col-sm-3 col-form-label">Proveedor:</label>
+                                    <div class="col-sm-8 col-9">
+                                        <select class="form-control" th:field="*{idProveedor}">
+                                            <option value="" disabled selected>Seleccione un proveedor</option>
+                                            <option th:each="proveedor : ${proveedores}"
+                                                th:value="${proveedor.idProveedor}"
+                                                th:text="${proveedor.razonSocial}">
+                                            </option>
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mb-3">
+                                    <label for="precioVenta" class="col-sm-3 col-form-label">Precio Venta:</label>
+                                    <div class="col-sm-8 col-9">
+                                        <input type="number" step="0.01" class="form-control" th:field="*{precioVenta}" placeholder="Ingrese precio de venta">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mb-3">
+                                    <label for="precioCompra" class="col-sm-3 col-form-label">Precio Compra:</label>
+                                    <div class="col-sm-8 col-9">
+                                        <input type="number" step="0.01" class="form-control" th:field="*{precioCompra}" placeholder="Ingrese precio de compra">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mb-3">
+                                    <label for="stock" class="col-sm-3 col-form-label">Stock:</label>
+                                    <div class="col-sm-8 col-9">
+                                        <input type="number" class="form-control" th:field="*{stock}" placeholder="Ingrese stock">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mb-3">
+                                    <label for="imagen" class="col-sm-3 col-form-label">Imagen:</label>
+                                    <div class="col-sm-8 col-9">
+                                        <div id="imagen-previo" style="min-height: 325px;"></div>
+                                        <input type="file" name="imagenFile" id="foto" class="form-control border border-dark" onchange="mostrarImagenPrevio(this)">
+
+                                        
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-success">Registrar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer th:replace="~{fragments/footer :: footer}"></footer>
+        </div>
+    </div>
+
+</div>
+
+<div th:replace="~{fragments/modalCerrarSesion :: modalCerrarSesion}"></div>
+<div th:replace="~{fragments/scripts :: scripts}"></div>
+
+<script>
+    function mostrarImagenPrevio(entrada) {
+        if (entrada.files && entrada.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var imagenPrevio = document.getElementById('imagen-previo');
+                imagenPrevio.innerHTML = '<img src="' + e.target.result + '" width="300">';
+            };
+
+            reader.readAsDataURL(entrada.files[0]);
+        }
+    }
+</script>
+
+</body>
+</html>
